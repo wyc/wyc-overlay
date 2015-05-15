@@ -25,8 +25,7 @@ RDEPEND="epiphany? ( www-client/epiphany-extensions )
 DEPEND="${RDEPEND}"
 
 src_unpack() {
-	distutils_src_unpack
-
+	unpack "${A}"
 	# The setup.py does copying straight to /. We'll handle this stuff 
 	# by hand later, because I couldn't figure out how to access the 
 	# --root argument from that point.
@@ -41,8 +40,6 @@ src_unpack() {
 }
 
 src_install() {
-	distutils_src_install
-
 	local i
 	for i in {16,22,32,48}; do
 		insinto /usr/share/icons/hicolor/${i}x${i}
@@ -80,8 +77,6 @@ src_install() {
 }
 
 pkg_postinst() {
-	distutils_pkg_postinst
-
 	elog "To use the GNOME applet, add it to your panel."
 
 	if use epiphany; then
