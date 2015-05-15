@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+EAPI="5"
+
 inherit eutils distutils mozextension
 
 DESCRIPTION="Data uploader for the RescueTime time tracker"
@@ -18,7 +20,8 @@ RDEPEND="epiphany? ( www-client/epiphany-extensions )
 			>=www-client/mozilla-firefox-1.5.0.7
 		)
 	)
-	>=dev-python/pygtk-2.14"
+	>=dev-python/pygtk-2.14
+	>=dev-python/gnome-keyring-python-2"
 DEPEND="${RDEPEND}"
 
 src_unpack() {
