@@ -1,0 +1,63 @@
+#!/sbin/runscript
+
+PID_DIR=/var/run/rescuetime
+
+depend() {
+    need localmount net
+    after bootmisc
+}
+
+start() {
+    local started=""
+
+    mkdir -p ${PID_DIR}
+
+    ebegin "Starting rescuetime"
+    for rtuser in ${RESCUETIME_USERS}; do
+        local homedir=$(eval echo ~${rtuser})
+        if test -d "${homedir}" && \
+            start-stop-daemon -S -b \
+            -u ${rtuser} -v \
+            -e HOME=${homedir} \
+            -x /usr/bin/rescuetime; then
+            started="${started} ${rtuser}"
+        else
+            eend $?
+            eerror "Failed to start rescuetime for ${rtuser}"
+            if [ -n "${started}" ]; then
+                eerror "Stopping already started rescuetime"
+                RESCUETIME_USERS=${started} stop
+            fi
+            return 1
+        fi
+    done
+    if [ -z "${started}" ];then
+        eerror "No rescuetime started, check RESCUETIME_USERS in /etc/conf.d/rescuetime.conf"
+        eend 1
+    else
+        eend 0
+    fi
+}
+
+stop() {
+    local retval=0
+    ebegin "Stopping rescuetime"
+    for rtuser in ${RESCUETIME_USERS}; do
+        local homedir=$(eval echo ~${rtuser})
+        start-stop-daemon --stop \
+            --pidfile ${homedir}/.config/RescueTime.com/rescuetime.pid || retval=$?
+    done
+    eend ${retval}
+}
+
+status() {
+    for rtuser in ${RESCUETIME_USERS}; do
+        local homedir=$(eval echo ~${rtuser})
+        if [ -e ${homedir}/.config/RescueTime.com/rescuetime.pid ] ; then
+            echo "rescuetime for USER $rtuser: running."
+        else
+            echo "rescuetime for USER $rtuser: not running."
+        fi
+    done
+}
+

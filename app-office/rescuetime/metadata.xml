@@ -2,6 +2,6 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<longdescription lang="en">
-		rescuetime ebuild from the dberkholz overlay (git://anongit.gentoo.org/dev/dberkholz)
+		Data uploader for the RescueTime time tracker
 	</longdescription>
 </pkgmetadata>
