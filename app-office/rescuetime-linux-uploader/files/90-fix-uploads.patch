@@ -1,0 +1,11 @@
+--- rescuetime-linux-uploader-90.orig/RescueTimeUploader/uploader.py	2009-02-18 09:52:13.000000000 -0800
++++ rescuetime-linux-uploader-90/RescueTimeUploader/uploader.py	2009-02-18 09:52:39.000000000 -0800
+@@ -526,7 +526,7 @@
+ 	
+ 	def test_connection(self):
+ 		try:
+-			request = urllib2.Request('https://api.rescuetime.com/')
++			request = urllib2.Request(RESCUETIME_API_URL + "handshake")
+ 			request.add_header('User-agent', USER_AGENT)
+ 			urllib2.urlopen(request)
+ 		except urllib2.HTTPError:
