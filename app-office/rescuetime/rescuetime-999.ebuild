@@ -21,7 +21,8 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 RDEPEND=">=dev-python/pygtk-2.14
-		 >=dev-python/gnome-keyring-python-2"
+		 >=dev-python/gnome-keyring-python-2
+		 dev-qt/qtgui:4"
 DEPEND="${RDEPEND}"
 
 S="${WORKDIR}"
