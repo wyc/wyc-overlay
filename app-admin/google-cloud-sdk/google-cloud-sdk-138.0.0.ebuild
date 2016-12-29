@@ -1,4 +1,4 @@
-EAPI=5
+EAPI=6
 inherit bash-completion-r1
 
 DESCRIPTION="Contains the command line interface to the Google Cloud Platform"
@@ -35,16 +35,18 @@ src_install() {
 		newbashcomp completion.bash.inc ${PN}
 	fi
 
+	# @todo: support app-engine-python and other languages w/use flags
 	local additional=""
 	if use kubectl ; then
 		additional="--additional-components kubectl"
 	fi
-	python2 "bin/bootstrapping/install.py"        \
-		--usage-reporting=false                   \
-		--disable-installation-options            \
-		--path-update=false                       \
-		--bash-completion=false 				  \
-		${additional}  						      \
+
+	python2 "bin/bootstrapping/install.py"		\
+		--usage-reporting=false					\
+		--disable-installation-options			\
+		--path-update=false						\
+		--bash-completion=false					\
+		${additional}							\
 	|| die
 
 	local dir="/opt/${PN}"
@@ -60,10 +62,8 @@ src_install() {
 	fi
 
 	if use doc ; then
-		dodoc README RELEASE_NOTES LICENSE
-		local mandir="/usr/share"
-		insinto "${mandir}"
-		doins -r help/man
+		dodoc README RELEASE_NOTES
+		doman "help/man/man1/*.1"
 	fi
 }
 
